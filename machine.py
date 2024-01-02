@@ -1,3 +1,4 @@
+# Menu options and settings
 MENU = {
     "espresso": {
         "ingredients": {
