@@ -11,7 +11,29 @@ def prompt():
 
 
 def check_input(input):
-    print("hold")
+
+    req_water = MENU[input]['ingredients']['water']
+    req_coffee = MENU[input]['ingredients']['coffee']
+    if 'milk' in MENU[input]['ingredients']:
+        req_milk = MENU[input]['ingredients']['milk']
+
+    if req_water > resources['water']:
+        print("Not enough water. Make another selection.")
+    elif req_coffee > resources['coffee']:
+        print("Not enough coffee. Make another selection.")
+    elif 'milk' in MENU[input]['ingredients'] and req_milk > resources['milk']:
+        print("Not enough milk. Make another selection")
+    else:
+        resources['water'] -= req_water
+        resources['coffee'] -= req_coffee
+        if 'milk' in MENU[input]['ingredients']:
+            resources['milk'] -= req_milk
+    # refund money if no enough resources
+
+
+def get_coins(quarters, dimes, nickels, pennies):
+    print("placeholder")
+    # todo logic to collect coins and make sure enough money inserted, refund if too much
 
 
 while not off:
