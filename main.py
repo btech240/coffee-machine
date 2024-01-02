@@ -61,10 +61,12 @@ while not off:
     if user_input == "off":
         off = True
     elif user_input == "report":
+        print()
         print(f"Water: {resources['water']}ml")
         print(f"Milk: {resources['milk']}ml")
         print(f"Coffee: {resources['coffee']}g")
         print(f"Money: ${resources['money']:.2f}")
+        print()
     elif user_input == "espresso":
         user_money = get_coins()
         check_input("espresso", user_money)
