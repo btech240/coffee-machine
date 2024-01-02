@@ -10,30 +10,40 @@ def prompt():
     return input("What would you like? (espresso/latte/cappuccino): ")
 
 
-def check_input(input):
+def check_input(input, money):
 
     req_water = MENU[input]['ingredients']['water']
     req_coffee = MENU[input]['ingredients']['coffee']
     if 'milk' in MENU[input]['ingredients']:
         req_milk = MENU[input]['ingredients']['milk']
+    req_money = MENU[input]['cost']
 
-    if req_water > resources['water']:
-        print("Not enough water. Make another selection.")
-    elif req_coffee > resources['coffee']:
-        print("Not enough coffee. Make another selection.")
-    elif 'milk' in MENU[input]['ingredients'] and req_milk > resources['milk']:
-        print("Not enough milk. Make another selection")
+    if money > req_money:
+
+        if req_water > resources['water']:
+            print("Not enough water. Make another selection.")
+        elif req_coffee > resources['coffee']:
+            print("Not enough coffee. Make another selection.")
+        elif 'milk' in MENU[input]['ingredients'] and req_milk > resources['milk']:
+            print("Not enough milk. Make another selection")
+        else:
+            resources['water'] -= req_water
+            resources['coffee'] -= req_coffee
+            if 'milk' in MENU[input]['ingredients']:
+                resources['milk'] -= req_milk
     else:
-        resources['water'] -= req_water
-        resources['coffee'] -= req_coffee
-        if 'milk' in MENU[input]['ingredients']:
-            resources['milk'] -= req_milk
-    # refund money if no enough resources
+
+        return "Sorry that's not enough money. Money refunded"
 
 
-def get_coins(quarters, dimes, nickels, pennies):
-    print("placeholder")
-    # todo logic to collect coins and make sure enough money inserted, refund if too much
+def get_coins():
+
+    quarters = float(input("How many quarters: "))
+    dimes = float(input("How many dimes: "))
+    nickels = float(input("How many nickels: "))
+    pennies = float(input("How many pennies: "))
+
+    return quarters * .25 + dimes * .10 + nickels * .05 + pennies * .01
 
 
 while not off:
@@ -47,10 +57,13 @@ while not off:
             print(f"{key}: {resources[key]}")
         print(f"Money: ${money:.2f}")
     elif user_input == "espresso":
-        check_input("espresso")
+        user_money = get_coins()
+        check_input("espresso", user_money)
     elif user_input == "latte":
-        check_input("latte")
+        user_money = get_coins()
+        check_input("latte", user_money)
     elif user_input == "cappuccino":
-        check_input("cappuccino")
+        user_money = get_coins()
+        check_input("cappuccino", user_money)
     else:
         print("Invalid request. Try again.")
